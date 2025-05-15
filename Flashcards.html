@@ -1,0 +1,1055 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>Estudo de Kanji</title>
+    <style>
+        body { font-family: Georgia; background: lightgray; display: flex; flex-wrap: wrap; gap: 10px; padding: 20px; }
+        .card {
+            width: 250px;
+            height: 90px;
+            perspective: 1000px;
+            cursor: pointer;
+        }
+        .inner {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.5s;
+        }
+        .card:hover .inner {
+            transform: rotateY(180deg);
+        }
+        .front, .back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2em;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+            background: whitesmoke;
+        }
+        .back {
+            transform: rotateY(180deg);
+            flex-direction: column;
+            justify-content: center;
+            font-size: 2em;
+            font-weight: bold;
+        }
+        .card-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center; /* Garante o alinhamento central do Kanji */
+            height: 100%; /* Certifica que ocupa a altura total do cartão */
+            font-size: 18px; /* Aumenta o tamanho do Kanji */
+            margin-bottom: 0px; /* Espaçamento entre o Kanji e os botões */
+        }
+
+        .delete-btn {
+            position: absolute;
+            top: 5px;
+            right: 8px;
+            background: transparent;
+            border: none;
+            font-size: 18px;
+            cursor: pointer;
+            color: #888;
+        }
+        .delete-btn:hover {
+            color: red;
+        }
+
+        .invert-btn {
+            position: absolute;
+            top: 5px;
+            left: 8px;
+            background: transparent;
+            border: none;
+            font-size: 18px;
+            cursor: pointer;
+            color: #888;
+        }
+        .invert-btn:hover {
+            color: #2196f3;
+        }
+
+        .edit-btn {
+            position: absolute;
+            top: 35px;
+            left: 8px;
+            background: transparent;
+            border: none;
+            font-size: 18px;
+            cursor: pointer;
+            color: #888;
+        }
+        .edit-btn:hover {
+            color: #ff9800; /* cor laranja para destaque */
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card" onclick="showButtons(this)">
+        <div class="inner">
+          <div class="front">一 - いち</div>
+          <div class="back">
+            <button class="delete-btn" onclick="deleteCard(this)">🗑️</button>
+            <div class="card-content">
+              <div class="kanji">ichi</div>
+              <div class="feedback-buttons">
+                <button onclick="markCorrect(event)">✔️ Acertei</button>
+                <button onclick="markWrong(event)">❌ Errei</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+      <div class="card" onclick="showButtons(this)">
+        <div class="inner">
+            <div class="front">二 - に</div>
+            <div class="back">
+                <button class="delete-btn" onclick="deleteCard(this)">🗑️</button>
+                <div class="card-content">
+                    <div class="kanji">ni</div>
+                    <div class="feedback-buttons">
+                        <button onclick="markCorrect(event)">✔️ Acertei</button>
+                        <button onclick="markWrong(event)">❌ Errei</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="card" onclick="showButtons(this)">
+        <div class="inner">
+            <div class="front">三 - さん</div>
+            <div class="back">
+                <button class="delete-btn" onclick="deleteCard(this)">🗑️</button>
+                <div class="card-content">
+                    <div class="kanji">san</div>
+                    <div class="feedback-buttons">
+                        <button onclick="markCorrect(event)">✔️ Acertei</button>
+                        <button onclick="markWrong(event)">❌ Errei</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="card" onclick="showButtons(this)">
+        <div class="inner">
+            <div class="front">四 - よん / し</div>
+            <div class="back">
+                <button class="delete-btn" onclick="deleteCard(this)">🗑️</button>
+                <div class="card-content">
+                    <div class="kanji">yon / shi</div>
+                    <div class="feedback-buttons">
+                        <button onclick="markCorrect(event)">✔️ Acertei</button>
+                        <button onclick="markWrong(event)">❌ Errei</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="card" onclick="showButtons(this)">
+        <div class="inner">
+            <div class="front">五 - ご</div>
+            <div class="back">
+                <button class="delete-btn" onclick="deleteCard(this)">🗑️</button>
+                <div class="card-content">
+                    <div class="kanji">go</div>
+                    <div class="feedback-buttons">
+                        <button onclick="markCorrect(event)">✔️ Acertei</button>
+                        <button onclick="markWrong(event)">❌ Errei</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="card" onclick="showButtons(this)">
+        <div class="inner">
+            <div class="front">六 - ろく</div>
+            <div class="back">
+                <button class="delete-btn" onclick="deleteCard(this)">🗑️</button>
+                <div class="card-content">
+                    <div class="kanji">roku</div>
+                    <div class="feedback-buttons">
+                        <button onclick="markCorrect(event)">✔️ Acertei</button>
+                        <button onclick="markWrong(event)">❌ Errei</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="card" onclick="showButtons(this)">
+        <div class="inner">
+            <div class="front">七 - なな / しち</div>
+            <div class="back">
+                <button class="delete-btn" onclick="deleteCard(this)">🗑️</button>
+                <div class="card-content">
+                    <div class="kanji">nana / shichi</div>
+                    <div class="feedback-buttons">
+                        <button onclick="markCorrect(event)">✔️ Acertei</button>
+                        <button onclick="markWrong(event)">❌ Errei</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="card" onclick="showButtons(this)">
+        <div class="inner">
+            <div class="front">八 - はち</div>
+            <div class="back">
+                <button class="delete-btn" onclick="deleteCard(this)">🗑️</button>
+                <div class="card-content">
+                    <div class="kanji">hachi</div>
+                    <div class="feedback-buttons">
+                        <button onclick="markCorrect(event)">✔️ Acertei</button>
+                        <button onclick="markWrong(event)">❌ Errei</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="card" onclick="showButtons(this)">
+        <div class="inner">
+            <div class="front">九 - きゅう / く</div>
+            <div class="back">
+                <button class="delete-btn" onclick="deleteCard(this)">🗑️</button>
+                <div class="card-content">
+                    <div class="kanji">kyuu / ku</div>
+                    <div class="feedback-buttons">
+                        <button onclick="markCorrect(event)">✔️ Acertei</button>
+                        <button onclick="markWrong(event)">❌ Errei</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="card" onclick="showButtons(this)">
+        <div class="inner">
+            <div class="front">十 - じゅう</div>
+            <div class="back">
+                <button class="delete-btn" onclick="deleteCard(this)">🗑️</button>
+                <div class="card-content">
+                    <div class="kanji">juu</div>
+                    <div class="feedback-buttons">
+                        <button onclick="markCorrect(event)">✔️ Acertei</button>
+                        <button onclick="markWrong(event)">❌ Errei</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="card" onclick="showButtons(this)">
+        <div class="inner">
+            <div class="front">hito ・ ひと</div>
+            <div class="back">
+                <button class="delete-btn" onclick="deleteCard(this)">🗑️</button>
+                <div class="card-content">
+                    <div class="kanji">人</div>
+                    <div class="feedback-buttons">
+                        <button onclick="markCorrect(event)">✔️ Acertei</button>
+                        <button onclick="markWrong(event)">❌ Errei</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="card" onclick="showButtons(this)">
+        <div class="inner">
+            <div class="front">inu ・ いぬ</div>
+            <div class="back">
+                <button class="delete-btn" onclick="deleteCard(this)">🗑️</button>
+                <div class="card-content">
+                    <div class="kanji">犬</div>
+                    <div class="feedback-buttons">
+                        <button onclick="markCorrect(event)">✔️ Acertei</button>
+                        <button onclick="markWrong(event)">❌ Errei</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="card" onclick="showButtons(this)">
+        <div class="inner">
+            <div class="front">ookii ・ おおきい</div>
+            <div class="back">
+                <button class="delete-btn" onclick="deleteCard(this)">🗑️</button>
+                <div class="card-content">
+                    <div class="kanji">大</div>
+                    <div class="feedback-buttons">
+                        <button onclick="markCorrect(event)">✔️ Acertei</button>
+                        <button onclick="markWrong(event)">❌ Errei</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="card" onclick="showButtons(this)">
+        <div class="inner">
+            <div class="front">hi ・ ひ</div>
+            <div class="back">
+                <button class="delete-btn" onclick="deleteCard(this)">🗑️</button>
+                <div class="card-content">
+                    <div class="kanji">火</div>
+                    <div class="feedback-buttons">
+                        <button onclick="markCorrect(event)">✔️ Acertei</button>
+                        <button onclick="markWrong(event)">❌ Errei</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="card" onclick="showButtons(this)">
+        <div class="inner">
+            <div class="front">sakana ・ さかな</div>
+            <div class="back">
+                <button class="delete-btn" onclick="deleteCard(this)">🗑️</button>
+                <div class="card-content">
+                    <div class="kanji">魚</div>
+                    <div class="feedback-buttons">
+                        <button onclick="markCorrect(event)">✔️ Acertei</button>
+                        <button onclick="markWrong(event)">❌ Errei</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="card" onclick="showButtons(this)">
+        <div class="inner">
+            <div class="front">chiisai ・ ちいさい</div>
+            <div class="back">
+                <button class="delete-btn" onclick="deleteCard(this)">🗑️</button>
+                <div class="card-content">
+                    <div class="kanji">小</div>
+                    <div class="feedback-buttons">
+                        <button onclick="markCorrect(event)">✔️ Acertei</button>
+                        <button onclick="markWrong(event)">❌ Errei</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="card" onclick="showButtons(this)">
+        <div class="inner">
+            <div class="front">watashi ・ わたし</div>
+            <div class="back">
+                <button class="delete-btn" onclick="deleteCard(this)">🗑️</button>
+                <div class="card-content">
+                    <div class="kanji">私</div>
+                    <div class="feedback-buttons">
+                        <button onclick="markCorrect(event)">✔️ Acertei</button>
+                        <button onclick="markWrong(event)">❌ Errei</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="card" onclick="showButtons(this)">
+        <div class="inner">
+            <div class="front">taiyou / hi ・ たいよう / ひ</div>
+            <div class="back">
+                <button class="delete-btn" onclick="deleteCard(this)">🗑️</button>
+                <div class="card-content">
+                    <div class="kanji">日</div>
+                    <div class="feedback-buttons">
+                        <button onclick="markCorrect(event)">✔️ Acertei</button>
+                        <button onclick="markWrong(event)">❌ Errei</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="card" onclick="showButtons(this)">
+        <div class="inner">
+            <div class="front">tsuki ・ つき</div>
+            <div class="back">
+                <button class="delete-btn" onclick="deleteCard(this)">🗑️</button>
+                <div class="card-content">
+                    <div class="kanji">月</div>
+                    <div class="feedback-buttons">
+                        <button onclick="markCorrect(event)">✔️ Acertei</button>
+                        <button onclick="markWrong(event)">❌ Errei</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="card" onclick="showButtons(this)">
+        <div class="inner">
+            <div class="front">me ・ め</div>
+            <div class="back">
+                <button class="delete-btn" onclick="deleteCard(this)">🗑️</button>
+                <div class="card-content">
+                    <div class="kanji">目</div>
+                    <div class="feedback-buttons">
+                        <button onclick="markCorrect(event)">✔️ Acertei</button>
+                        <button onclick="markWrong(event)">❌ Errei</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="card" onclick="showButtons(this)">
+        <div class="inner">
+            <div class="front">kuchi ・ くち</div>
+            <div class="back">
+                <button class="delete-btn" onclick="deleteCard(this)">🗑️</button>
+                <div class="card-content">
+                    <div class="kanji">口</div>
+                    <div class="feedback-buttons">
+                        <button onclick="markCorrect(event)">✔️ Acertei</button>
+                        <button onclick="markWrong(event)">❌ Errei</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="card" onclick="showButtons(this)">
+        <div class="inner">
+            <div class="front">mizu ・ みず</div>
+            <div class="back">
+                <button class="delete-btn" onclick="deleteCard(this)">🗑️</button>
+                <div class="card-content">
+                    <div class="kanji">水</div>
+                    <div class="feedback-buttons">
+                        <button onclick="markCorrect(event)">✔️ Acertei</button>
+                        <button onclick="markWrong(event)">❌ Errei</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="card" onclick="showButtons(this)">
+        <div class="inner">
+            <div class="front">ki ・ き</div>
+            <div class="back">
+                <button class="delete-btn" onclick="deleteCard(this)">🗑️</button>
+                <div class="card-content">
+                    <div class="kanji">木</div>
+                    <div class="feedback-buttons">
+                        <button onclick="markCorrect(event)">✔️ Acertei</button>
+                        <button onclick="markWrong(event)">❌ Errei</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="card" onclick="showButtons(this)">
+        <div class="inner">
+            <div class="front">tsuchi ・ つち</div>
+            <div class="back">
+                <button class="delete-btn" onclick="deleteCard(this)">🗑️</button>
+                <div class="card-content">
+                    <div class="kanji">土</div>
+                    <div class="feedback-buttons">
+                        <button onclick="markCorrect(event)">✔️ Acertei</button>
+                        <button onclick="markWrong(event)">❌ Errei</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="card" onclick="showButtons(this)">
+        <div class="inner">
+            <div class="front">hon ・ ほん</div>
+            <div class="back">
+                <button class="delete-btn" onclick="deleteCard(this)">🗑️</button>
+                <div class="card-content">
+                    <div class="kanji">本</div>
+                    <div class="feedback-buttons">
+                        <button onclick="markCorrect(event)">✔️ Acertei</button>
+                        <button onclick="markWrong(event)">❌ Errei</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="card" onclick="showButtons(this)">
+        <div class="inner">
+            <div class="front">haha ・ はは</div>
+            <div class="back">
+                <button class="delete-btn" onclick="deleteCard(this)">🗑️</button>
+                <div class="card-content">
+                    <div class="kanji">母</div>
+                    <div class="feedback-buttons">
+                        <button onclick="markCorrect(event)">✔️ Acertei</button>
+                        <button onclick="markWrong(event)">❌ Errei</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="card" onclick="showButtons(this)">
+        <div class="inner">
+            <div class="front">chichi ・ ちち</div>
+            <div class="back">
+                <button class="delete-btn" onclick="deleteCard(this)">🗑️</button>
+                <div class="card-content">
+                    <div class="kanji">父</div>
+                    <div class="feedback-buttons">
+                        <button onclick="markCorrect(event)">✔️ Acertei</button>
+                        <button onclick="markWrong(event)">❌ Errei</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="card" onclick="showButtons(this)">
+        <div class="inner">
+            <div class="front">kodomo ・ こども</div>
+            <div class="back">
+                <button class="delete-btn" onclick="deleteCard(this)">🗑️</button>
+                <div class="card-content">
+                    <div class="kanji">子</div>
+                    <div class="feedback-buttons">
+                        <button onclick="markCorrect(event)">✔️ Acertei</button>
+                        <button onclick="markWrong(event)">❌ Errei</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card" onclick="showButtons(this)">
+        <div class="inner">
+            <div class="front">kin / きん ・ きん</div>
+            <div class="back">
+                <button class="delete-btn" onclick="deleteCard(this)">🗑️</button>
+                <div class="card-content">
+                    <div class="kanji">金</div>
+                    <div class="feedback-buttons">
+                        <button onclick="markCorrect(event)">✔️ Acertei</button>
+                        <button onclick="markWrong(event)">❌ Errei</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="card" onclick="showButtons(this)">
+        <div class="inner">
+            <div class="front">sora / そら ・ くう</div>
+            <div class="back">
+                <button class="delete-btn" onclick="deleteCard(this)">🗑️</button>
+                <div class="card-content">
+                    <div class="kanji">空</div>
+                    <div class="feedback-buttons">
+                        <button onclick="markCorrect(event)">✔️ Acertei</button>
+                        <button onclick="markWrong(event)">❌ Errei</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="card" onclick="showButtons(this)">
+        <div class="inner">
+            <div class="front">ta / た ・ でん</div>
+            <div class="back">
+                <button class="delete-btn" onclick="deleteCard(this)">🗑️</button>
+                <div class="card-content">
+                    <div class="kanji">田</div>
+                    <div class="feedback-buttons">
+                        <button onclick="markCorrect(event)">✔️ Acertei</button>
+                        <button onclick="markWrong(event)">❌ Errei</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="card" onclick="showButtons(this)">
+        <div class="inner">
+            <div class="front">yama / やま ・ さん</div>
+            <div class="back">
+                <button class="delete-btn" onclick="deleteCard(this)">🗑️</button>
+                <div class="card-content">
+                    <div class="kanji">山</div>
+                    <div class="feedback-buttons">
+                        <button onclick="markCorrect(event)">✔️ Acertei</button>
+                        <button onclick="markWrong(event)">❌ Errei</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="card" onclick="showButtons(this)">
+        <div class="inner">
+            <div class="front">miru / みる ・ けん</div>
+            <div class="back">
+                <button class="delete-btn" onclick="deleteCard(this)">🗑️</button>
+                <div class="card-content">
+                    <div class="kanji">見</div>
+                    <div class="feedback-buttons">
+                        <button onclick="markCorrect(event)">✔️ Acertei</button>
+                        <button onclick="markWrong(event)">❌ Errei</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="card" onclick="showButtons(this)">
+        <div class="inner">
+            <div class="front">iku / いく ・ こう</div>
+            <div class="back">
+                <button class="delete-btn" onclick="deleteCard(this)">🗑️</button>
+                <div class="card-content">
+                    <div class="kanji">行</div>
+                    <div class="feedback-buttons">
+                        <button onclick="markCorrect(event)">✔️ Acertei</button>
+                        <button onclick="markWrong(event)">❌ Errei</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="card" onclick="showButtons(this)">
+        <div class="inner">
+            <div class="front">hanasu / はなす ・ わ</div>
+            <div class="back">
+                <button class="delete-btn" onclick="deleteCard(this)">🗑️</button>
+                <div class="card-content">
+                    <div class="kanji">話</div>
+                    <div class="feedback-buttons">
+                        <button onclick="markCorrect(event)">✔️ Acertei</button>
+                        <button onclick="markWrong(event)">❌ Errei</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="card" onclick="showButtons(this)">
+        <div class="inner">
+            <div class="front">taberu / たべる ・ しょく</div>
+            <div class="back">
+                <button class="delete-btn" onclick="deleteCard(this)">🗑️</button>
+                <div class="card-content">
+                    <div class="kanji">食</div>
+                    <div class="feedback-buttons">
+                        <button onclick="markCorrect(event)">✔️ Acertei</button>
+                        <button onclick="markWrong(event)">❌ Errei</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <button onclick="openAddModal()" style="margin-bottom: 20px; padding: 10px 20px; font-size: 16px;">➕ Adicionar Flashcard</button>
+
+    <div id="addModal" style="display:none; position:fixed; top:20%; left:50%; transform:translateX(-50%); background:white; padding:20px; box-shadow:0 0 10px rgba(0,0,0,0.3); border-radius:10px; z-index:1000;">
+        <h3>Novo Flashcard</h3>
+        <label>Frente (leitura):</label><br>
+        <input type="text" id="frontInput" style="width:100%; margin-bottom:10px;"><br>
+        <label>Verso (kanji):</label><br>
+        <input type="text" id="backInput" style="width:100%; margin-bottom:10px;"><br>
+        <button onclick="addFlashcard()">Salvar</button>
+        <button onclick="closeAddModal()">Cancelar</button>
+    </div>
+    
+<!-- CONTADOR -->
+<div id="counter" style="margin-top: 20px; font-size: 14px; text-align: center;">
+    Acertos: <span id="correctCount">0</span> |
+    Erros: <span id="wrongCount">0</span> |
+    <button onclick="resetCounts()">🔄 Resetar</button>
+    <div id="percentage" style="margin-top: 6px; font-weight: bold;">Percentual de acertos: 0%</div>
+</div>
+
+<!-- BOTAO EDITAR-->>
+<div id="editModal" style="display:none; position:fixed; top:25%; left:50%; transform:translateX(-50%); background:white; padding:20px; box-shadow:0 0 10px rgba(0,0,0,0.3); border-radius:10px; z-index:1000;">
+    <h3>Editar Flashcard</h3>
+    <label>Frente:</label><br>
+    <input type="text" id="editFront" style="width:100%; margin-bottom:10px;"><br>
+    <label>Verso:</label><br>
+    <input type="text" id="editBack" style="width:100%; margin-bottom:10px;"><br>
+    <button onclick="saveEdit()">Salvar</button>
+    <button onclick="closeEditModal()">Cancelar</button>
+</div>
+
+<!-- SONS -->
+<audio id="soundCorrect" src="https://www.soundjay.com/buttons/sounds/beep-08b.mp3" preload="auto"></audio>
+<audio id="soundWrong" src="https://www.soundjay.com/buttons/sounds/beep-10.mp3" preload="auto"></audio>
+
+<!-- Botao Funcoes fixo -->
+<div id="funcoesContainer" style="position: fixed; bottom: 20px; right: 20px; z-index: 2000; font-family: Arial, sans-serif;">
+  <button id="funcoesBtn" style="padding: 10px 15px; font-size: 14px; cursor: pointer;">Funções</button>
+
+  <!-- Botoes extras inicialmente escondidos -->
+  <div id="funcoesExtras" style="display: none; margin-bottom: 10px; text-align: right;">
+    <button id="btnDeleteAll" title="Eliminar todos os flashcards" style="margin-bottom: 5px; background: #e53935; color: white; border: none; padding: 8px 12px; cursor: pointer; border-radius: 5px;">🗑️ Excluir Todos</button><br>
+    <button id="btnInvertAll" title="Inverter todos os flashcards" style="background: #2196f3; color: white; border: none; padding: 8px 12px; cursor: pointer; border-radius: 5px;">🔄 Inverter Todos</button>
+  </div>
+</div>
+
+<!-- Modal de confirmacao -->
+<div id="confirmModal" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+  background: white; padding: 20px; box-shadow: 0 0 15px rgba(0,0,0,0.3); border-radius: 10px; z-index: 3000; width: 300px; text-align: center; font-family: Arial, sans-serif;">
+  <p style="margin-bottom: 20px;">Deseja realmente eliminar todos os cartões?</p>
+  <button id="confirmContinue" style="background: #e53935; color: white; border: none; padding: 8px 16px; margin-right: 10px; cursor: pointer; border-radius: 5px;">Continuar</button>
+  <button id="confirmCancel" style="background: #ccc; color: black; border: none; padding: 8px 16px; cursor: pointer; border-radius: 5px;">Cancelar</button>
+</div>
+
+
+<!-- SCRIPT -->
+<script>
+  let correct = 0;
+  let wrong = 0;
+
+  function markCorrect(event) {
+    event.stopPropagation();
+    correct++;
+    document.getElementById("correctCount").textContent = correct;
+    document.getElementById("soundCorrect").play();
+    updatePercentage();
+  }
+
+  function markWrong(event) {
+    event.stopPropagation();
+    wrong++;
+    document.getElementById("wrongCount").textContent = wrong;
+    document.getElementById("soundWrong").play();
+    updatePercentage();
+  }
+
+  function resetCounts() {
+    correct = 0;
+    wrong = 0;
+    document.getElementById("correctCount").textContent = correct;
+    document.getElementById("wrongCount").textContent = wrong;
+    updatePercentage();
+  }
+
+  function updatePercentage() {
+    const total = correct + wrong;
+    const percentage = total > 0 ? ((correct / total) * 100).toFixed(1) : 0;
+    const percentageElement = document.getElementById("percentage");
+    percentageElement.textContent = `Percentual de acertos: ${percentage}%`;
+
+    // Cores baseadas no percentual
+    if (percentage < 1) {
+        percentageElement.style.color = "#000000"; // preto
+    } else if (percentage < 50) {
+        percentageElement.style.color = "#e53935"; // vermelho
+    } else if (percentage < 80) {
+        percentageElement.style.color = "#f4b400"; // amarelo mostarda
+    } else if (percentage < 95) {
+        percentageElement.style.color = "#8bc34a"; // verde claro
+    } else {
+        percentageElement.style.color = "#50CF01"; // verde 
+    }
+  }
+  function openAddModal() {
+  document.getElementById('addModal').style.display = 'block';
+}
+
+function closeAddModal() {
+  document.getElementById('addModal').style.display = 'none';
+  document.getElementById('frontInput').value = '';
+  document.getElementById('backInput').value = '';
+}
+
+function addFlashcard() {
+  const front = document.getElementById('frontInput').value.trim();
+  const back = document.getElementById('backInput').value.trim();
+
+  if (!front || !back) {
+    alert('Preencha os dois campos!');
+    return;
+  }
+
+  const card = document.createElement('div');
+  card.className = 'card';
+  card.onclick = function () { showButtons(card); };
+  card.innerHTML = `
+    <div class="inner">
+      <div class="front">${front}</div>
+      <div class="back">
+        <button class="delete-btn" onclick="deleteCard(this)">🗑️</button>
+        <div class="card-content">
+          <div class="kanji">${back}</div>
+          <div class="feedback-buttons">
+            <button onclick="markCorrect(event)">✔️ Acertei</button>
+            <button onclick="markWrong(event)">❌ Errei</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+
+  const flashcardContainer = document.body; // Ou o contêiner específico onde os flashcards são exibidos
+const addButton = document.querySelector("button[onclick='openAddModal()']");
+flashcardContainer.insertBefore(card, addButton);
+  saveFlashcardsToStorage();
+  addInvertAndEditButtons();
+  closeAddModal();
+}
+
+function deleteCard(btn) {
+  btn.closest('.card').remove();
+  // Atualiza o storage
+saveFlashcardsToStorage();
+}
+// Adiciona os botões "Inverter" e "Editar" a todos os cards existentes
+document.querySelectorAll('.card .back').forEach(back => {
+  // Verifica se o botão já existe para não duplicar
+  if (!back.querySelector('.invert-btn')) {
+    // Botão de inverter 🔄
+    const invertBtn = document.createElement('button');
+    invertBtn.className = 'invert-btn';
+    invertBtn.innerHTML = '🔄';
+    invertBtn.onclick = function () {
+      invertCard(this);
+    };
+    back.insertBefore(invertBtn, back.firstChild);
+
+    // Botão de editar 📝 — AGORA no lugar certo
+    const editBtn = document.createElement('button');
+    editBtn.className = 'edit-btn';
+    editBtn.innerHTML = '📝';
+    editBtn.onclick = function () {
+      openEditModal(this);
+    };
+    back.insertBefore(editBtn, invertBtn.nextSibling);
+  }
+});
+function invertCard(btn) {
+  const card = btn.closest('.card');
+  const front = card.querySelector('.front');
+  const backContent = card.querySelector('.kanji');
+
+  const temp = front.textContent;
+  front.textContent = backContent.textContent;
+  backContent.textContent = temp;
+}
+
+let currentCardBeingEdited = null;
+
+function openEditModal(btn) {
+  const card = btn.closest('.card');
+  currentCardBeingEdited = card;
+
+  const frontText = card.querySelector('.front').textContent;
+  const backText = card.querySelector('.kanji').textContent;
+
+  document.getElementById('editFront').value = frontText;
+  document.getElementById('editBack').value = backText;
+
+  document.getElementById('editModal').style.display = 'block';
+}
+
+function closeEditModal() {
+  document.getElementById('editModal').style.display = 'none';
+  currentCardBeingEdited = null;
+}
+
+function saveEdit() {
+  if (!currentCardBeingEdited) return;
+
+  const newFront = document.getElementById('editFront').value.trim();
+  const newBack = document.getElementById('editBack').value.trim();
+
+  if (!newFront || !newBack) {
+    alert("Preencha os dois campos.");
+    return;
+  }
+
+  currentCardBeingEdited.querySelector('.front').textContent = newFront;
+  currentCardBeingEdited.querySelector('.kanji').textContent = newBack;
+
+  closeEditModal();
+  saveFlashcardsToStorage();
+}
+
+function saveFlashcardsToStorage() {
+  const flashcards = [];
+  document.querySelectorAll('.card').forEach(card => {
+    const front = card.querySelector('.front').textContent;
+    const back = card.querySelector('.kanji').textContent;
+    flashcards.push({ front, back });
+  });
+  localStorage.setItem('flashcards', JSON.stringify(flashcards));
+}
+
+function loadFlashcardsFromStorage() {
+  const stored = localStorage.getItem('flashcards');
+  if (!stored) return; // Não tem nada salvo
+
+  const flashcards = JSON.parse(stored);
+  const addButton = document.querySelector("button[onclick='openAddModal()']");
+  
+  // Remove os flashcards hardcoded (se quiser substituir tudo)
+  document.querySelectorAll('.card').forEach(card => card.remove());
+
+  flashcards.forEach(({ front, back }) => {
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.onclick = function () { showButtons(card); };
+    card.innerHTML = `
+      <div class="inner">
+        <div class="front">${front}</div>
+        <div class="back">
+          <button class="delete-btn" onclick="deleteCard(this)">🗑️</button>
+          <div class="card-content">
+            <div class="kanji">${back}</div>
+            <div class="feedback-buttons">
+              <button onclick="markCorrect(event)">✔️ Acertei</button>
+              <button onclick="markWrong(event)">❌ Errei</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+
+    addButton.parentNode.insertBefore(card, addButton);
+  });
+
+  // Depois de criar os cards, reaplique os botões Inverter e Editar
+  addInvertAndEditButtons();
+}
+
+function addInvertAndEditButtons() {
+  document.querySelectorAll('.card .back').forEach(back => {
+    if (!back.querySelector('.invert-btn')) {
+      const invertBtn = document.createElement('button');
+      invertBtn.className = 'invert-btn';
+      invertBtn.innerHTML = '🔄';
+      invertBtn.onclick = function () { invertCard(this); };
+      back.insertBefore(invertBtn, back.firstChild);
+
+      const editBtn = document.createElement('button');
+      editBtn.className = 'edit-btn';
+      editBtn.innerHTML = '📝';
+      editBtn.onclick = function () { openEditModal(this); };
+      back.insertBefore(editBtn, invertBtn.nextSibling);
+    }
+  });
+}
+window.onload = function() {
+  loadFlashcardsFromStorage();  // vai carregar os flashcards salvos no localStorage ao abrir a página
+};
+
+// Controla a exibição dos botões extras
+document.getElementById('funcoesBtn').addEventListener('click', () => {
+  const extras = document.getElementById('funcoesExtras');
+  extras.style.display = extras.style.display === 'none' ? 'block' : 'none';
+});
+
+// Abre o modal de confirmação para excluir todos
+document.getElementById('btnDeleteAll').addEventListener('click', () => {
+  document.getElementById('confirmModal').style.display = 'block';
+});
+
+// Cancelar exclusão
+document.getElementById('confirmCancel').addEventListener('click', () => {
+  document.getElementById('confirmModal').style.display = 'none';
+});
+
+// Confirmar exclusão: remove todos os flashcards
+document.getElementById('confirmContinue').addEventListener('click', () => {
+  // Remove todos os cards da tela
+  document.querySelectorAll('.card').forEach(card => card.remove());
+
+  // Atualiza o localStorage
+  saveFlashcardsToStorage();
+
+  // Fecha o modal e os botões extras
+  document.getElementById('confirmModal').style.display = 'none';
+  document.getElementById('funcoesExtras').style.display = 'none';
+});
+
+// Inverter todos os flashcards
+document.getElementById('btnInvertAll').addEventListener('click', () => {
+  document.querySelectorAll('.card').forEach(card => {
+    const front = card.querySelector('.front');
+    const back = card.querySelector('.kanji');
+
+    const temp = front.textContent;
+    front.textContent = back.textContent;
+    back.textContent = temp;
+  });
+
+  // Atualiza o localStorage após inverter todos
+  saveFlashcardsToStorage();
+});
+
+function loadFlashcardsFromStorage() {
+  const stored = localStorage.getItem('flashcards');
+  if (!stored) {
+    // Se não tem nada salvo, NÃO remove os flashcards originais fixos do HTML
+    return;
+  }
+
+  const flashcards = JSON.parse(stored);
+  const addButton = document.querySelector("button[onclick='openAddModal()']");
+
+  // Remove os flashcards fixos para não duplicar
+  document.querySelectorAll('.card').forEach(card => card.remove());
+
+  flashcards.forEach(({ front, back }) => {
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.onclick = function () { showButtons(card); };
+    card.innerHTML = `
+      <div class="inner">
+        <div class="front">${front}</div>
+        <div class="back">
+          <button class="delete-btn" onclick="deleteCard(this)">🗑️</button>
+          <div class="card-content">
+            <div class="kanji">${back}</div>
+            <div class="feedback-buttons">
+              <button onclick="markCorrect(event)">✔️ Acertei</button>
+              <button onclick="markWrong(event)">❌ Errei</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+
+    addButton.parentNode.insertBefore(card, addButton);
+  });
+
+  addInvertAndEditButtons();
+}
+</script>
+
+</body>
+</html>
